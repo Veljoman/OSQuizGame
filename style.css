@@ -1,0 +1,34 @@
+body{
+    width: 600px;
+    height: 550px;
+    justify-self: center;
+    background-color: rgba(244, 244, 244, 0.59);
+}
+
+#nav h1{
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 1%;
+}
+
+#nav{
+    justify-self: center;
+    text-align: center;
+    border-bottom: 3px solid;
+    border-image: linear-gradient(to right, transparent, #7ac3c7, transparent) 20;
+    width: 500px;
+}
+
+#questionBox{
+    /*border: 1px solid black;*/
+    width: 550px;
+    height: 450px;
+    justify-self: center;
+    margin-top: 5px;
+    position: relative;
+}
+
+#questionNumText{
+    text-align: center;
+    font-size: 1.25em;
+}
