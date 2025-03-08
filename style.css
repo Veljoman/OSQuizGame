@@ -27,28 +27,48 @@ body {
     margin-top: 0;
     margin-bottom: 1%;
     font-size: 2em;
+    color: #1D3557;
+}
+
+#interactive {
+    color: #457B9D;
+}
+
+#start-game {
+    border-radius: 10px;
+    color: white;
+    background-color: #457B9D;
+    padding: 1em;
+    letter-spacing: 2px;
+    border: 0;
+    font-size: 16px;
+    transition: .2s ease-in-out 0s;
+}
+
+#start-game:hover {
+    cursor: pointer;
+    transform: scale(1.10);
+}
+
+#start-button {
+    display: flex;
+    justify-self: center;
+    margin-top: 3%;
 }
 
 #questionBox {
     width: 50%;
     height: 80vh;
     margin-top: 10px;
-    border: 1px solid black;
+
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.container #start-game {
-    display: flex;
-    align-self: center;
-    width: 13%;
-}
-
 .content {
     width: 90%;
-    border: 1px solid black;
-    margin-top: 5%;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -56,6 +76,8 @@ body {
 
 .content #question {
     margin-bottom: 1%;
+    font-size: 2em;
+    color: #1D3557;
 }
 
 .container #answer-boxes {
@@ -67,15 +89,26 @@ body {
 .content #answer-boxes > div {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    padding: 0.2em;
     width: auto;
 }
 
 .content #next-question{
     display: inline-block;
     margin: 5px;
+    width: 90%;
+    padding: 0.5em;
+    background-color: #1D3557;
+    color: white;
+    border-radius: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
+#next-btn-container {
+    justify-self: center;
+}
 
 #questionNumText{
     text-align: center;
@@ -83,4 +116,5 @@ body {
     color: #1D3557;
     font-weight: bold;
     margin-top: 0;
-}/
+    margin-bottom: 0.5em;
+}
