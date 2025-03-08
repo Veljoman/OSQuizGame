@@ -39,11 +39,6 @@ body {
     align-items: center;
 }
 
-#questionNumText {
-    text-align: center;
-    font-size: 1.25em;
-}
-
 .container #start-game {
     display: flex;
     align-self: center;
@@ -82,7 +77,10 @@ body {
 }
 
 
-
-/*#questionBox button, #questionBox p {*/
-/*    margin-bottom: 10px;*/
-/*}*/
+#questionNumText{
+    text-align: center;
+    font-size: 2em;
+    color: #1D3557;
+    font-weight: bold;
+    margin-top: 0;
+}/
