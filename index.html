@@ -6,17 +6,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="nav">
-    <h1>ОС Квиз</h1>
+<div class="container">
+    <div id="nav">
+        <h1>ОС Квиз</h1>
+    </div>
+    <div id="questionBox">
+        <div class="content">
+            <p id="questionNumText">Прашање број <span id="questionNum">1</span></p>
+            <div id="question"></div>
+            <div id="answer-boxes"></div>
+            <button id="next-question">Next</button>
+            <button id="start-game">Почни квиз</button>
+        </div>
+    </div>
 </div>
-<div id="questionBox">
-    <button id="start-game">Start</button>
-    <p id="questionNumText">Прашање број <span id="questionNum">1</span></p>
-    <div id="question"></div>    
-    <div id="answer-boxes"></div>
-    <button id="next-question">Next</button>
-</div>
-<!--<button onclick="countIncrement()" id="addBtn">Add</button>-->
 </body>
 <script src="script.js"></script>
 </html>
