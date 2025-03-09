@@ -38,6 +38,9 @@ fetch("questions.json")
 function showQuestion() {
   if (questionIndex >= questionsArray.length) {
     questionNumText.innerHTML = "Успешно го завршивте квизот!";
+    questionField.innerHTML="";
+    answerBoxes.innerHTML = `<h1>Имате ${score}/6 точни прашања!</h1>`
+    nextQuestionBtn.style.visibility = "hidden";
     return;
   }
 
@@ -57,7 +60,7 @@ function showQuestion() {
     const div = document.createElement("div");
 
     div.style.border = "2px solid black";
-    div.style.fontSize = "2em";
+    div.style.fontSize = "1.5em";
     div.style.color = "white";
     div.style.backgroundColor = "#457B9D";
 

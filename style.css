@@ -18,7 +18,7 @@ body {
     width: 50%;
     text-align: center;
     border-bottom: 3px solid;
-    margin-top: 0;
+    margin-top: 1%;
     border-image: linear-gradient(to right, transparent, #7ac3c7, transparent) 20;
 }
 
@@ -26,11 +26,11 @@ body {
     display: inline-block;
     margin-top: 0;
     margin-bottom: 1%;
-    font-size: 2em;
+    font-size: 1.75em;
     color: #1D3557;
 }
 
-#interactive {
+.interactive {
     color: #457B9D;
 }
 
@@ -41,8 +41,9 @@ body {
     padding: 1em;
     letter-spacing: 2px;
     border: 0;
-    font-size: 16px;
+    font-size: 1.5em;
     transition: .2s ease-in-out 0s;
+    margin-top: 25%;
 }
 
 #start-game:hover {
@@ -53,14 +54,12 @@ body {
 #start-button {
     display: flex;
     justify-self: center;
-    margin-top: 3%;
+    margin-top: 10%;
 }
 
 #questionBox {
     width: 50%;
     height: 80vh;
-    margin-top: 10px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,7 +75,7 @@ body {
 
 .content #question {
     margin-bottom: 1%;
-    font-size: 2em;
+    font-size: 1.65em;
     color: #1D3557;
 }
 
@@ -104,6 +103,7 @@ body {
     border-radius: 0.5em;
     text-transform: uppercase;
     letter-spacing: 2px;
+    font-size: 1.25em;
 }
 
 #next-btn-container {
@@ -112,9 +112,9 @@ body {
 
 #questionNumText{
     text-align: center;
-    font-size: 2em;
+    font-size: 1.5em;
+    margin-top: 3%;
     color: #1D3557;
     font-weight: bold;
-    margin-top: 0;
     margin-bottom: 0.5em;
 }
