@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>ОС Тест</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <div class="container">
     <div id="nav">
-        <h1>ОС Квиз</h1>
+        <h1>
+            ОПЕРАТИВНИ <span class="interactive">СИСТЕМИ </span> ИНТЕРАКТИВЕН <span class="interactive">КВИЗ</span>
+        </h1>
     </div>
     <div id="questionBox">
         <div class="content">
-            <p id="questionNumText">Прашање број <span id="questionNum">1</span></p>
+            <div id="start-btn-container">
+                <button id="start-game">Почни квиз</button>
+            </div>
+            <p id="questionNumText">
+                Прашање број <span id="questionNum">1</span>
+            </p>
             <div id="question"></div>
             <div id="answer-boxes"></div>
-            <button id="next-question">Next</button>
-            <button id="start-game">Почни квиз</button>
+            <div id="next-btn-container">
+                <button id="next-question">Следно прашање</button>
+            </div>
         </div>
     </div>
 </div>
