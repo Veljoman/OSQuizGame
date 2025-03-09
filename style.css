@@ -3,6 +3,8 @@ body {
   height: 100vh;
   background-color: rgba(244, 244, 244, 0.59);
   margin: 0;
+
+
   position: relative;
 }
 
@@ -161,4 +163,47 @@ body {
   color: #1d3557;
   font-weight: bold;
   margin-bottom: 0.5em;
+}
+
+.slide-in {
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(-10px); 
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.answer-box {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn2 0.5s forwards;
+}
+
+@keyframes fadeIn2 {
+  from {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
 }
