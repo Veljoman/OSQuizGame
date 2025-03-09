@@ -38,8 +38,8 @@ fetch("questions.json")
 function showQuestion() {
   if (questionIndex >= questionsArray.length) {
     questionNumText.innerHTML = "Успешно го завршивте квизот!";
-    questionField.innerHTML="";
-    answerBoxes.innerHTML = `<h1>Имате ${score}/6 точни прашања!</h1>`
+    questionField.innerHTML = "";
+    answerBoxes.innerHTML = `<h1>Имате ${score}/20 точни прашања.</h1>`;
     nextQuestionBtn.style.visibility = "hidden";
     return;
   }
@@ -81,7 +81,7 @@ function showQuestion() {
     div.addEventListener("mouseleave", onMouseLeave);
 
     div.innerHTML = option;
-    
+
     div.onclick = () => {
       hasClicked = true;
       checkAnswer(index);
@@ -99,6 +99,7 @@ function checkAnswer(index) {
   for (let i = 0; i < 4; i++) {
     if (i === correctIndex) {
       divs[i].style.backgroundColor = "#38b000";
+      divs[i].classList.add("correct");
     } else {
       divs[i].style.backgroundColor = "#E63946";
     }
@@ -106,6 +107,8 @@ function checkAnswer(index) {
 
   if (index === correctIndex) {
     score++;
+  } else {
+    divs[index].classList.add("buzz");
   }
 
   nextQuestionBtn.style.visibility = "visible";
