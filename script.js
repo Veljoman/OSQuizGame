@@ -63,6 +63,9 @@ function showQuestion() {
     div.style.fontSize = "1.5em";
     div.style.color = "white";
     div.style.backgroundColor = "#457B9D";
+    div.style.animationDelay = `${index * 0.3}s`;
+
+    div.classList.add("answer-box");
 
     function onMouseEnter() {
       if (!hasClicked) {
@@ -86,10 +89,12 @@ function showQuestion() {
       hasClicked = true;
       checkAnswer(index);
     };
+
     answerBoxes.appendChild(div);
   });
 
   nextQuestionBtn.style.visibility = "hidden";
+  nextQuestionBtn.classList.remove("slide-in");
 }
 
 function checkAnswer(index) {
@@ -97,6 +102,8 @@ function checkAnswer(index) {
   const divs = answerBoxes.querySelectorAll("div");
 
   for (let i = 0; i < 4; i++) {
+    divs[i].classList.remove("answer-box");
+    divs[i].style.animationDelay = '0s';
     if (i === correctIndex) {
       divs[i].style.backgroundColor = "#38b000";
       divs[i].classList.add("correct");
@@ -112,6 +119,7 @@ function checkAnswer(index) {
   }
 
   nextQuestionBtn.style.visibility = "visible";
+  nextQuestionBtn.classList.add("slide-in");
 }
 
 function shuffleQuestions(array) {
