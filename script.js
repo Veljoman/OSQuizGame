@@ -15,116 +15,163 @@ questionNumText.style.visibility = "hidden";
 nextQuestionBtn.style.visibility = "hidden";
 
 fetch("questions.json")
-  .then((response) => response.json())
-  .then((data) => {
-    questionsArray = data;
+    .then((response) => response.json())
+    .then((data) => {
+        questionsArray = data;
 
-    shuffleQuestions(questionsArray);
+        shuffleQuestions(questionsArray);
 
-    console.log(questionsArray);
+        console.log(questionsArray);
 
-    startButton.addEventListener("click", () => {
-      questionNumText.style.visibility = "visible";
-      showQuestion();
+        startButton.addEventListener("click", () => {
+            questionNumText.style.visibility = "visible";
+            showQuestion();
+        });
+
+        nextQuestionBtn.addEventListener("click", () => {
+            questionIndex++;
+            questionNum.innerHTML = questionIndex + 1;
+            showQuestion();
+        });
     });
-
-    nextQuestionBtn.addEventListener("click", () => {
-      questionIndex++;
-      questionNum.innerHTML = questionIndex + 1;
-      showQuestion();
-    });
-  });
 
 function showQuestion() {
-  if (questionIndex >= questionsArray.length) {
-    questionNumText.innerHTML = "Успешно го завршивте квизот!";
-    questionField.innerHTML = "";
-    answerBoxes.innerHTML = `<h1>Имате ${score}/20 точни прашања.</h1>`;
-    nextQuestionBtn.style.visibility = "hidden";
-    return;
-  }
+    if (questionIndex >= 1) {
+        questionField.innerHTML = "";
+        nextQuestionBtn.style.visibility = "hidden";
+        questionNumText.innerHTML = `
+    <h2>Успешно го завршивте квизот!
+    <br>Имате <span id="scoreCounter" class="animate__animated animate__pulse   "></span>/20 точни одговори.</h2>`;
+        // answerBoxes.innerHTML = `<h1 class="animate__animated animate__heartBeat">Имате ${score}/20 точни прашања.</h1>`;
+        animateCounter(score);
 
-  if (startButton.style.display != "none") {
-    startButton.style.display = "none";
-  }
+        // if (score >= 17) {
+            const confetti = new JSConfetti();
+            confetti.addConfetti({
+                emojis: ['🎉', '🎊', '👏', '🍆'],
+                confettiNumber: 100,
+                confettiRadius: 7,
+                emojiSize: 30,
+            });
+        // }
 
-  questionData = questionsArray[questionIndex];
-
-  questionField.innerHTML = questionData.question;
-
-  answerBoxes.innerHTML = "";
-
-  let hasClicked = false;
-
-  questionData.options.forEach((option, index) => {
-    const div = document.createElement("div");
-
-    div.style.border = "2px solid black";
-    div.style.fontSize = "1.5em";
-    div.style.color = "white";
-    div.style.backgroundColor = "#457B9D";
-    div.style.animationDelay = `${index * 0.3}s`;
-
-    div.classList.add("answer-box");
-
-    function onMouseEnter() {
-      if (!hasClicked) {
-        div.style.cursor = "pointer";
-        div.style.backgroundColor = "#1D3557";
-      }
+        answerBoxes.innerHTML = "";
+        return;
     }
 
-    function onMouseLeave() {
-      if (!hasClicked) {
+    if (startButton.style.display != "none") {
+        startButton.style.display = "none";
+    }
+
+    questionData = questionsArray[questionIndex];
+
+    questionField.innerHTML = questionData.question;
+
+    answerBoxes.innerHTML = "";
+
+    let hasClicked = false;
+
+    questionData.options.forEach((option, index) => {
+        const div = document.createElement("div");
+
+        div.style.border = "2px solid black";
+        div.style.fontSize = "1.5em";
+        div.style.color = "white";
         div.style.backgroundColor = "#457B9D";
-      }
-    }
+        div.style.animationDelay = `${index * 0.3}s`;
 
-    div.addEventListener("mouseenter", onMouseEnter);
-    div.addEventListener("mouseleave", onMouseLeave);
+        div.classList.add("answer-box");
 
-    div.innerHTML = option;
+        function onMouseEnter() {
+            if (!hasClicked) {
+                div.style.cursor = "pointer";
+                div.style.backgroundColor = "#1D3557";
+            }
+        }
 
-    div.onclick = () => {
-      hasClicked = true;
-      checkAnswer(index);
-    };
+        function onMouseLeave() {
+            if (!hasClicked) {
+                div.style.backgroundColor = "#457B9D";
+            }
+        }
 
-    answerBoxes.appendChild(div);
-  });
+        div.addEventListener("mouseenter", onMouseEnter);
+        div.addEventListener("mouseleave", onMouseLeave);
 
-  nextQuestionBtn.style.visibility = "hidden";
-  nextQuestionBtn.classList.remove("slide-in");
+        div.innerHTML = option;
+
+        div.onclick = () => {
+            hasClicked = true;
+            checkAnswer(index);
+        };
+
+        answerBoxes.appendChild(div);
+    });
+
+    nextQuestionBtn.style.visibility = "hidden";
+    nextQuestionBtn.classList.remove("slide-in");
 }
 
 function checkAnswer(index) {
-  const correctIndex = questionsArray[questionIndex].answer - 1;
-  const divs = answerBoxes.querySelectorAll("div");
+    const correctIndex = questionsArray[questionIndex].answer - 1;
+    const divs = answerBoxes.querySelectorAll("div");
 
-  for (let i = 0; i < 4; i++) {
-    divs[i].classList.remove("answer-box");
-    divs[i].style.animationDelay = '0s';
-    if (i === correctIndex) {
-      divs[i].style.backgroundColor = "#38b000";
-      divs[i].classList.add("correct");
-    } else {
-      divs[i].style.backgroundColor = "#E63946";
+    for (let i = 0; i < 4; i++) {
+        divs[i].classList.remove("answer-box");
+        divs[i].style.animationDelay = '0s';
+        if (i === correctIndex) {
+            divs[i].style.backgroundColor = "#38b000";
+            divs[i].classList.add("correct");
+        } else {
+            divs[i].style.backgroundColor = "#E63946";
+        }
     }
-  }
 
-  if (index === correctIndex) {
-    score++;
-  } else {
-    divs[index].classList.add("buzz");
-  }
+    if (index === correctIndex) {
+        score++;
+    } else {
+        divs[index].classList.add("buzz");
+    }
 
-  nextQuestionBtn.style.visibility = "visible";
-  nextQuestionBtn.classList.add("slide-in");
+    nextQuestionBtn.style.visibility = "visible";
+    nextQuestionBtn.classList.add("slide-in");
 }
 
 function shuffleQuestions(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function animateCounter(correctAnswers) {
+    const scoreCounter = document.getElementById("scoreCounter");
+    let currentCounter = 0;
+    let animationDuration = 0;
+
+    if (correctAnswers <= 5) {
+        animationDuration = 1000;
+    } else if (correctAnswers <= 10) {
+        animationDuration = 1500;
+    } else if (correctAnswers <= 20) {
+        animationDuration = 2750;
+    }
+
+    const frameDuration = 16.7;
+    const totalFrames = Math.round(animationDuration / frameDuration);
+    const easeOutQuad = t => t * (2 - t);
+
+    const animation = setInterval(() => {
+        currentCounter++;
+
+        const progress = easeOutQuad(currentCounter / totalFrames);
+        const animatedCount = Math.round(progress * correctAnswers);
+
+        scoreCounter.textContent = animatedCount;
+
+        if (currentCounter >= totalFrames) {
+            clearInterval(animation);
+            scoreCounter.textContent = correctAnswers;
+        }
+    }, frameDuration);
 }
