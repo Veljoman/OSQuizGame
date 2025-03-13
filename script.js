@@ -39,7 +39,7 @@ function showQuestion() {
   if (questionIndex >= questionsArray.length) {
     questionNumText.innerHTML = "Успешно го завршивте квизот!";
     questionField.innerHTML = "";
-    answerBoxes.innerHTML = `<h1>Имате ${score}/20 точни прашања.</h1>`;
+    answerBoxes.innerHTML = `<h1>Имате ${score}/${questionsArray.length} точни прашања.</h1>`;
     nextQuestionBtn.style.visibility = "hidden";
     return;
   }
