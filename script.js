@@ -36,7 +36,7 @@ fetch("questions.json")
     });
 
 function showQuestion() {
-    if (questionIndex >= 1) {
+    if (questionIndex >= 20) {
         questionField.innerHTML = "";
         nextQuestionBtn.style.visibility = "hidden";
         questionNumText.innerHTML = `
@@ -45,7 +45,7 @@ function showQuestion() {
         // answerBoxes.innerHTML = `<h1 class="animate__animated animate__heartBeat">Имате ${score}/20 точни прашања.</h1>`;
         animateCounter(score);
 
-        // if (score >= 17) {
+        if (score >= 17) {
             const confetti = new JSConfetti();
             confetti.addConfetti({
                 emojis: ['🎉', '🎊', '👏', '🍆'],
@@ -53,7 +53,7 @@ function showQuestion() {
                 confettiRadius: 7,
                 emojiSize: 30,
             });
-        // }
+        }
 
         answerBoxes.innerHTML = "";
         return;
