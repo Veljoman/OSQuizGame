@@ -29,7 +29,6 @@ body {
     margin-top: 0;
     margin-bottom: 1%;
     font-size: 1.75em;
-    color: #1d3557;
 }
 
 .interactive {
@@ -46,6 +45,14 @@ body {
     font-size: 1.5em;
     transition: 0.2s ease-in-out 0s;
     margin-top: 2%;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#quiz-options {
+    display: flex;
+    flex-direction: column;
 }
 
 .btnStyles:hover {
@@ -206,4 +213,24 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+#questionNumText button {
+    width: 250px;
+    font-size: 20px;
+}
+
+#questionNumText h3 {
+    font-size: 24px;
+    margin-bottom: 0;
+}
+
+#questionNumText p {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+#nav #title{
+    text-decoration: none;
+    color: #1d3557;
 }
