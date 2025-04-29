@@ -37,6 +37,7 @@ function startQuiz(json, type) {
             shuffleQuestions(questionsArray);
             questionIndex = 0;
             score = 0;
+            document.getElementById("introText").style.display="none";
             questionNum.style.visibility = "visible";
             questionNumText.style.visibility = "visible";
             questionNumText.innerHTML = `<p>Прашање број <span id="questionNum">1</span></p>`;
@@ -62,6 +63,7 @@ function showQuestion() {
                 <button id="retryBtn" class="btnStyles">Обиди се повторно</button>
             </div>
         `;
+
         document.getElementById("retryBtn").onclick = resetQuiz;
         animateCounter(score);
 
