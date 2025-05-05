@@ -7,19 +7,27 @@
 </head>
 <body>
 <div class="container">
-    <div id="nav">
+    <div id="nav" class="fade-in">
         <h1>
-            ОПЕРАТИВНИ <span class="interactive">СИСТЕМИ </span> ИНТЕРАКТИВЕН <span class="interactive">КВИЗ</span>
+            <a href="index.html" id="title">ОПЕРАТИВНИ <span class="interactive">СИСТЕМИ </span> ИНТЕРАКТИВЕН <span class="interactive">КВИЗ</span></a>
         </h1>
     </div>
-    <div id="questionBox">
+    <div id="questionBox" class="animate__animated animate__fadeInUp">
         <div class="content">
-            <div id="start-btn-container">
-                <button id="start-game">Почни квиз</button>
+            <div id="introText" class="fade-in">
+                <p>Добредојдовте во квизот по <strong>Оперативни Системи</strong>!<br>
+                    Овој квиз е креиран од двајца студенти со цел подобро да го совладаат материјалот од овој курс, 
+                    додека истовремено го практикуваат користењето на Git и GitHub во рамки на предметот Софтверско Инженерство.<br>
+                    Одговорете на прашањата, <strong>забавувајте се</strong> и <strong>учете</strong> преку игра. <strong>Среќно!</strong></p>
             </div>
-            <p id="questionNumText">
+            <div id="quiz-options" class="fade-in">
+                <button id="examBtn" class="btnStyles">Испит</button>
+                <button id="firstTermBtn" class="btnStyles">Прв колоквиум</button>
+                <button id="secondTermBtn" class="btnStyles">Втор колоквиум</button>
+            </div>
+            <div id="questionNumText">
                 Прашање број <span id="questionNum">1</span>
-            </p>
+            </div>
             <div id="question"></div>
             <div id="answer-boxes"></div>
             <div id="next-btn-container">
@@ -30,4 +38,5 @@
 </div>
 </body>
 <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 </html>
