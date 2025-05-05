@@ -236,9 +236,9 @@ body {
 }
 
 #introText{
-    width: 50%;
-    font-size: 1.5em;
+    width: 100%;
+    font-size: 1.35em;
     margin-left: auto;
     margin-right: auto;
-
+    line-height: 1.25em;
 }
