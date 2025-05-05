@@ -19,193 +19,201 @@ nextQuestionBtn.style.visibility = "hidden";
 
 // new version: only one json file, with added "type", to minimize number of files and get better load times :D
 examBtn.addEventListener("click", () => startQuiz("questions.json", "exam"));
-firstTermBtn.addEventListener("click", () => startQuiz("questions.json", "firstTerm"));
-secondTermBtn.addEventListener("click", () => startQuiz("questions.json", "secondTerm"));
+firstTermBtn.addEventListener("click", () =>
+  startQuiz("questions.json", "firstTerm")
+);
+secondTermBtn.addEventListener("click", () =>
+  startQuiz("questions.json", "secondTerm")
+);
 nextQuestionBtn.addEventListener("click", () => {
-    questionIndex+=1;
-    questionNum.innerHTML = questionIndex+1;
-    showQuestion();
+  questionIndex += 1;
+  questionNum.innerHTML = questionIndex + 1;
+  showQuestion();
 });
 
 function startQuiz(json, type) {
-    currentQuizType = type;
+  currentQuizType = type;
 
-    fetch(json)
-        .then((response) => response.json())
-        .then((data) => {
-            questionsArray = data.filter(question => question.type === type);
-            shuffleQuestions(questionsArray);
-            questionIndex = 0;
-            score = 0;
-            document.getElementById("introText").style.display="none";
-            questionNum.style.visibility = "visible";
-            questionNumText.style.visibility = "visible";
-            questionNumText.innerHTML = `<p>Прашање број <span id="questionNum">1</span></p>`;
-            questionNum = document.getElementById("questionNum");
-            quizOptions.style.display = "none";
+  fetch(json)
+    .then((response) => response.json())
+    .then((data) => {
+      if (type === "exam") {
+        questionsArray = data;
+      } else {
+        questionsArray = data.filter((question) => question.type === type);
+      }
+      shuffleQuestions(questionsArray);
+      questionIndex = 0;
+      score = 0;
+      document.getElementById("introText").style.display = "none";
+      questionNum.style.visibility = "visible";
+      questionNumText.style.visibility = "visible";
+      questionNumText.innerHTML = `<p>Прашање број <span id="questionNum">1</span></p>`;
+      questionNum = document.getElementById("questionNum");
+      quizOptions.style.display = "none";
 
-            showQuestion();
-        });
+      showQuestion();
+    });
 }
 
 function showQuestion() {
-    if (questionIndex >= 20) {
-        questionField.innerHTML = "";
-        answerBoxes.innerHTML = "";
-        nextQuestionBtn.style.visibility = "hidden";
-        questionNum.style.visibility = "hidden";
+  if (questionIndex >= 20) {
+    questionField.innerHTML = "";
+    answerBoxes.innerHTML = "";
+    nextQuestionBtn.style.visibility = "hidden";
+    questionNum.style.visibility = "hidden";
 
-        questionNumText.style.visibility = "visible";
-        questionNumText.innerHTML = `
+    questionNumText.style.visibility = "visible";
+    questionNumText.innerHTML = `
             <div class="fade-in">
                 <h3>Квизот е завршен!</h3>
-                <p>Вашиот резултат: <span id="scoreCounter">0</span> од 20</p>
+                <p>Вашиот резултат: <span id="scoreCounter">0</span> точни одговори од 20 прашања</p>
                 <button id="retryBtn" class="btnStyles">Обиди се повторно</button>
             </div>
         `;
 
-        document.getElementById("retryBtn").onclick = resetQuiz;
-        animateCounter(score);
+    document.getElementById("retryBtn").onclick = resetQuiz;
+    animateCounter(score);
 
-        if (score >= 17) {
-            const confetti = new JSConfetti();
-            confetti.addConfetti({
-                emojis: ['🎉', '🎊', '👏', '🍆'],
-                confettiNumber: 100,
-                confettiRadius: 7,
-                emojiSize: 30,
-            });
-        }
-
-        // answerBoxes.innerHTML = '<button id="retryBtn" class="animate__animated animate__bounceIn btnStyles">Обиди се повторно</button>';
-        return;
+    if (score >= 17) {
+      const confetti = new JSConfetti();
+      confetti.addConfetti({
+        emojis: ["🎉", "🎊", "👏", "🍆"],
+        confettiNumber: 100,
+        confettiRadius: 7,
+        emojiSize: 30,
+      });
     }
 
-    questionData = questionsArray[questionIndex];
-    questionField.innerHTML = questionData.question;
+    // answerBoxes.innerHTML = '<button id="retryBtn" class="animate__animated animate__bounceIn btnStyles">Обиди се повторно</button>';
+    return;
+  }
 
-    answerBoxes.innerHTML = "";
+  questionData = questionsArray[questionIndex];
+  questionField.innerHTML = questionData.question;
 
-    let hasClicked = false;
+  answerBoxes.innerHTML = "";
 
-    questionData.options.forEach((option, index) => {
-        const div = document.createElement("div");
+  let hasClicked = false;
 
-        div.style.border = "2px solid black";
-        div.style.fontSize = "1.5em";
-        div.style.color = "white";
+  questionData.options.forEach((option, index) => {
+    const div = document.createElement("div");
+
+    div.style.border = "2px solid black";
+    div.style.fontSize = "1.5em";
+    div.style.color = "white";
+    div.style.backgroundColor = "#457B9D";
+    div.style.animationDelay = `${index * 0.3}s`;
+
+    div.classList.add("answer-box");
+
+    function onMouseEnter() {
+      if (!hasClicked) {
+        div.style.cursor = "pointer";
+        div.style.backgroundColor = "#1D3557";
+      }
+    }
+
+    function onMouseLeave() {
+      if (!hasClicked) {
         div.style.backgroundColor = "#457B9D";
-        div.style.animationDelay = `${index * 0.3}s`;
+      }
+    }
 
-        div.classList.add("answer-box");
+    div.addEventListener("mouseenter", onMouseEnter);
+    div.addEventListener("mouseleave", onMouseLeave);
 
-        function onMouseEnter() {
-            if (!hasClicked) {
-                div.style.cursor = "pointer";
-                div.style.backgroundColor = "#1D3557";
-            }
-        }
+    div.innerHTML = option;
 
-        function onMouseLeave() {
-            if (!hasClicked) {
-                div.style.backgroundColor = "#457B9D";
-            }
-        }
+    div.onclick = () => {
+      hasClicked = true;
+      checkAnswer(index);
+    };
 
-        div.addEventListener("mouseenter", onMouseEnter);
-        div.addEventListener("mouseleave", onMouseLeave);
+    answerBoxes.appendChild(div);
+  });
 
-        div.innerHTML = option;
-
-        div.onclick = () => {
-            hasClicked = true;
-            checkAnswer(index);
-        };
-
-        answerBoxes.appendChild(div);
-    });
-
-    nextQuestionBtn.style.visibility = "hidden";
-    nextQuestionBtn.classList.remove("slide-in");
+  nextQuestionBtn.style.visibility = "hidden";
+  nextQuestionBtn.classList.remove("slide-in");
 }
 
 function checkAnswer(index) {
-    const correctIndex = questionsArray[questionIndex].answer - 1;
-    const divs = answerBoxes.querySelectorAll("div");
+  const correctIndex = questionsArray[questionIndex].answer - 1;
+  const divs = answerBoxes.querySelectorAll("div");
 
-    for (let i = 0; i < 4; i++) {
-        divs[i].classList.remove("answer-box");
-        divs[i].style.animationDelay = '0s';
-        if (i === correctIndex) {
-            divs[i].style.backgroundColor = "#38b000";
-            divs[i].classList.add("correct");
-        } else {
-            divs[i].style.backgroundColor = "#E63946";
-        }
-    }
-
-    if (index === correctIndex) {
-        score++;
+  for (let i = 0; i < 4; i++) {
+    divs[i].classList.remove("answer-box");
+    divs[i].style.animationDelay = "0s";
+    if (i === correctIndex) {
+      divs[i].style.backgroundColor = "#38b000";
+      divs[i].classList.add("correct");
     } else {
-        divs[index].classList.add("buzz");
+      divs[i].style.backgroundColor = "#E63946";
     }
+  }
 
-    nextQuestionBtn.style.visibility = "visible";
-    nextQuestionBtn.classList.add("slide-in");
+  if (index === correctIndex) {
+    score++;
+  } else {
+    divs[index].classList.add("buzz");
+  }
+
+  nextQuestionBtn.style.visibility = "visible";
+  nextQuestionBtn.classList.add("slide-in");
 }
 
 function shuffleQuestions(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 }
 
 function animateCounter(correctAnswers) {
-    const scoreCounter = document.getElementById("scoreCounter");
-    let currentCounter = 0;
-    let animationDuration = 0;
+  const scoreCounter = document.getElementById("scoreCounter");
+  let currentCounter = 0;
+  let animationDuration = 0;
 
-    if (correctAnswers <= 5) {
-        animationDuration = 1000;
-    } else if (correctAnswers <= 10) {
-        animationDuration = 1500;
-    } else if (correctAnswers <= 20) {
-        animationDuration = 2750;
-    }
+  if (correctAnswers <= 5) {
+    animationDuration = 1000;
+  } else if (correctAnswers <= 10) {
+    animationDuration = 1500;
+  } else if (correctAnswers <= 20) {
+    animationDuration = 2750;
+  }
 
-    const frameDuration = 16.7;
-    const totalFrames = Math.round(animationDuration / frameDuration);
-    const easeOutQuad = t => t * (2 - t);
+  const frameDuration = 16.7;
+  const totalFrames = Math.round(animationDuration / frameDuration);
+  const easeOutQuad = (t) => t * (2 - t);
 
-    if (correctAnswers !== 0) {
-        const animation = setInterval(() => {
-            currentCounter++;
+  if (correctAnswers !== 0) {
+    const animation = setInterval(() => {
+      currentCounter++;
 
-            const progress = easeOutQuad(currentCounter / totalFrames);
-            const animatedCount = Math.round(progress * correctAnswers);
+      const progress = easeOutQuad(currentCounter / totalFrames);
+      const animatedCount = Math.round(progress * correctAnswers);
 
-            scoreCounter.innerText = animatedCount;
+      scoreCounter.innerText = animatedCount;
 
-            if (currentCounter >= totalFrames) {
-                clearInterval(animation);
-                scoreCounter.innerText = correctAnswers;
-            }
-        }, frameDuration);
-    }
+      if (currentCounter >= totalFrames) {
+        clearInterval(animation);
+        scoreCounter.innerText = correctAnswers;
+      }
+    }, frameDuration);
+  }
 }
 
 function resetQuiz() {
-    questionIndex = 0;
-    score = 0;
-    currentQuizType = "";
-    questionsArray = [];
+  questionIndex = 0;
+  score = 0;
+  currentQuizType = "";
+  questionsArray = [];
 
-    questionField.innerHTML = "";
-    answerBoxes.innerHTML = "";
-    questionNumText.innerHTML="";
+  questionField.innerHTML = "";
+  answerBoxes.innerHTML = "";
+  questionNumText.innerHTML = "";
 
-    questionNum.style.visibility = "hidden";
-    questionNumText.style.visibility = "hidden";
-    quizOptions.style.display = "flex";
+  questionNum.style.visibility = "hidden";
+  questionNumText.style.visibility = "hidden";
+  quizOptions.style.display = "flex";
 }
