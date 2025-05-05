@@ -188,7 +188,7 @@ body {
 .fade-in {
     opacity: 0;
     transform: translateY(-10px);
-    animation: fadeIn 0.5s ease-in forwards;
+    animation: fadeIn 0.6s ease-in forwards;
 }
 
 @keyframes fadeIn {
@@ -233,4 +233,12 @@ body {
 #nav #title{
     text-decoration: none;
     color: #1d3557;
+}
+
+#introText{
+    width: 50%;
+    font-size: 1.5em;
+    margin-left: auto;
+    margin-right: auto;
+
 }
