@@ -1,48 +1,68 @@
 let questionsArray = [];
-let questionElement = document.getElementById("question");
 let questionIndex = 0;
 let score = 0;
+let currentQuizType = "";
 
-let startButton = document.getElementById("start-game");
 let questionField = document.getElementById("question");
 let questionNumText = document.getElementById("questionNumText");
 let answerBoxes = document.getElementById("answer-boxes");
-let questionBox = document.getElementById("questionBox");
 let nextQuestionBtn = document.getElementById("next-question");
 let questionNum = document.getElementById("questionNum");
+let quizOptions = document.getElementById("quiz-options");
+
+let examBtn = document.getElementById("examBtn");
+let firstTermBtn = document.getElementById("firstTermBtn");
+let secondTermBtn = document.getElementById("secondTermBtn");
 
 questionNumText.style.visibility = "hidden";
 nextQuestionBtn.style.visibility = "hidden";
 
-fetch("questions.json")
-    .then((response) => response.json())
-    .then((data) => {
-        questionsArray = data;
+// new version: only one json file, with added "type", to minimize number of files and get better load times :D
+examBtn.addEventListener("click", () => startQuiz("questions.json", "exam"));
+firstTermBtn.addEventListener("click", () => startQuiz("questions.json", "firstTerm"));
+secondTermBtn.addEventListener("click", () => startQuiz("questions.json", "secondTerm"));
+nextQuestionBtn.addEventListener("click", () => {
+    questionIndex+=1;
+    questionNum.innerHTML = questionIndex+1;
+    showQuestion();
+});
 
-        shuffleQuestions(questionsArray);
+function startQuiz(json, type) {
+    currentQuizType = type;
 
-        console.log(questionsArray);
-
-        startButton.addEventListener("click", () => {
+    fetch(json)
+        .then((response) => response.json())
+        .then((data) => {
+            questionsArray = data.filter(question => question.type === type);
+            shuffleQuestions(questionsArray);
+            questionIndex = 0;
+            score = 0;
+            questionNum.style.visibility = "visible";
             questionNumText.style.visibility = "visible";
-            showQuestion();
-        });
+            questionNumText.innerHTML = `<p>Прашање број <span id="questionNum">1</span></p>`;
+            questionNum = document.getElementById("questionNum");
+            quizOptions.style.display = "none";
 
-        nextQuestionBtn.addEventListener("click", () => {
-            questionIndex++;
-            questionNum.innerHTML = questionIndex + 1;
             showQuestion();
         });
-    });
+}
 
 function showQuestion() {
     if (questionIndex >= 20) {
         questionField.innerHTML = "";
+        answerBoxes.innerHTML = "";
         nextQuestionBtn.style.visibility = "hidden";
+        questionNum.style.visibility = "hidden";
+
+        questionNumText.style.visibility = "visible";
         questionNumText.innerHTML = `
-    <h2>Успешно го завршивте квизот!
-    <br>Имате <span id="scoreCounter" class="animate__animated animate__pulse   "></span>/20 точни одговори.</h2>`;
-        // answerBoxes.innerHTML = `<h1 class="animate__animated animate__heartBeat">Имате ${score}/20 точни прашања.</h1>`;
+            <div class="fade-in">
+                <h3>Квизот е завршен!</h3>
+                <p>Вашиот резултат: <span id="scoreCounter">0</span> од 20</p>
+                <button id="retryBtn" class="btnStyles">Обиди се повторно</button>
+            </div>
+        `;
+        document.getElementById("retryBtn").onclick = resetQuiz;
         animateCounter(score);
 
         if (score >= 17) {
@@ -55,16 +75,11 @@ function showQuestion() {
             });
         }
 
-        answerBoxes.innerHTML = "";
+        // answerBoxes.innerHTML = '<button id="retryBtn" class="animate__animated animate__bounceIn btnStyles">Обиди се повторно</button>';
         return;
     }
 
-    if (startButton.style.display != "none") {
-        startButton.style.display = "none";
-    }
-
     questionData = questionsArray[questionIndex];
-
     questionField.innerHTML = questionData.question;
 
     answerBoxes.innerHTML = "";
@@ -161,17 +176,34 @@ function animateCounter(correctAnswers) {
     const totalFrames = Math.round(animationDuration / frameDuration);
     const easeOutQuad = t => t * (2 - t);
 
-    const animation = setInterval(() => {
-        currentCounter++;
+    if (correctAnswers !== 0) {
+        const animation = setInterval(() => {
+            currentCounter++;
 
-        const progress = easeOutQuad(currentCounter / totalFrames);
-        const animatedCount = Math.round(progress * correctAnswers);
+            const progress = easeOutQuad(currentCounter / totalFrames);
+            const animatedCount = Math.round(progress * correctAnswers);
 
-        scoreCounter.textContent = animatedCount;
+            scoreCounter.innerText = animatedCount;
 
-        if (currentCounter >= totalFrames) {
-            clearInterval(animation);
-            scoreCounter.textContent = correctAnswers;
-        }
-    }, frameDuration);
+            if (currentCounter >= totalFrames) {
+                clearInterval(animation);
+                scoreCounter.innerText = correctAnswers;
+            }
+        }, frameDuration);
+    }
+}
+
+function resetQuiz() {
+    questionIndex = 0;
+    score = 0;
+    currentQuizType = "";
+    questionsArray = [];
+
+    questionField.innerHTML = "";
+    answerBoxes.innerHTML = "";
+    questionNumText.innerHTML="";
+
+    questionNum.style.visibility = "hidden";
+    questionNumText.style.visibility = "hidden";
+    quizOptions.style.display = "flex";
 }
